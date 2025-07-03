@@ -16,7 +16,7 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
             <thead class="table-primary">
-                <tr>
+                <tr style="color:antiquewhite">
                     <th>Airline</th>
                     <th>Flight Number</th>
                     <th>From</th>
@@ -48,13 +48,19 @@
     {% if plot_routes %}
     <div class="mb-4">
         <h5>Popular Routes (Bar Chart)</h5>
-        <img src="/{{ plot_routes }}" alt="Popular Routes Bar Chart" class="img-fluid" style="max-width:600px;">
+        <img src="/static/{{ plot_routes }}" alt="Popular Routes Bar Chart" class="img-fluid" style="max-width:600px;">
     </div>
     {% endif %}
     {% if plot_demand %}
     <div class="mb-4">
         <h5>High Demand Locations (Bar Chart)</h5>
-        <img src="/{{ plot_demand }}" alt="High Demand Locations Bar Chart" class="img-fluid" style="max-width:600px;">
+        <img src="/static/{{ plot_demand }}" alt="High Demand Locations Bar Chart" class="img-fluid" style="max-width:600px;">
+    </div>
+    {% endif %}
+    {% if plot_pie %}
+    <div class="mb-4">
+        <h5>Flight Frequency by Route (Pie Chart)</h5>
+        <img src="/static/{{ plot_pie }}" alt="Flight Frequency Pie Chart" class="img-fluid" style="max-width:400px;">
     </div>
     {% endif %}
     <h3>Gemini AI Insights</h3>
