@@ -3,3 +3,4 @@ requests
 pandas
 selenium
 google-generativeai 
+gunicorn
