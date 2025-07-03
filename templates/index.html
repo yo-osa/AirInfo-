@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Your Airline</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="bird">
+  <svg class="bird-shape" viewBox="0 0 60 30"><path d="M2,28 Q30,2 58,28" stroke="#1976d2" stroke-width="3" fill="none"/></svg>
+</div>
+<div class="bird bird2">
+  <svg class="bird-shape" viewBox="0 0 40 20"><path d="M2,18 Q20,2 38,18" stroke="#0d47a1" stroke-width="2" fill="none"/></svg>
+</div>
+<!-- Sidebar toggle button -->
+<button id="sidebarToggle" class="sidebar-toggle-btn">Contact Me</button>
+<!-- Sidebar -->
+<div id="contactSidebar" class="contact-sidebar">
+    <button id="closeSidebar" class="close-sidebar">&times;</button>
+    <h4>Contact Us for More Info</h4>
+    <form method="post" action="mailto:your.email@example.com" enctype="text/plain" class="p-3 rounded shadow-sm" style="background: linear-gradient(90deg, #fff9c4 60%, #f8bbd0 100%); border: 2px solid #1976d2;">
+        <div class="mb-3">
+            <label for="contactName" class="form-label">Your Name</label>
+            <input type="text" class="form-control border border-info" id="contactName" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="contactEmail" class="form-label">Your Email</label>
+            <input type="email" class="form-control border border-warning" id="contactEmail" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="contactMsg" class="form-label">Message</label>
+            <textarea class="form-control border border-success" id="contactMsg" name="message" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-info">Send Inquiry</button>
+    </form>
+    <h4 class="mt-4">Customer Care</h4>
+    <div class="card p-3 bg-light border border-danger shadow-sm">
+        <p><strong>Email:</strong> maitreyeegore115@gmail.com</p>
+        <p><strong>Phone:</strong> +91 9067400949</p>
+        <p><strong>Hours:</strong> 9:00 AM – 8:00 PM (IST), Mon–Sat</p>
+        <p>For urgent queries, please mention "URGENT" in your message subject.</p>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="airbuddy-title"><span class="plane-emoji">✈️</span> AirInfo <span class="plane-emoji">🛫</span></div>
+    <h1 class="mb-4">Search Your Flight</h1>
+    <form method="post" action="/scrape" class="p-4 rounded shadow-sm" style="background: linear-gradient(90deg, #e3f2fd 60%, #fff9c4 100%); border: 2px solid #f06292;">
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <div class="mb-3">
+            <label for="airline" class="form-label">Airline IATA Code</label>
+            <input type="text" class="form-control border border-info" id="airline" name="airline" placeholder="e.g. AI, EK, QF" required>
+        </div>
+        <div class="mb-3">
+            <label for="aviationstack_api_key" class="form-label">AviationStack API Key</label>
+            <div class="input-group">
+                <input type="password" class="form-control border border-warning" id="aviationstack_api_key" name="aviationstack_api_key" placeholder="Enter your AviationStack API key" {% if not error %}value=""{% endif %} required>
+                <button class="btn btn-outline-secondary" type="button" id="toggleApiKey" onclick="toggleApiKeyVisibility()">Show API Key</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="time_range" class="form-label">Time Range</label>
+            <select class="form-control border border-success" id="time_range" name="time_range">
+                <option value="any">Any</option>
+                <option value="morning">Morning (05:00-12:00)</option>
+                <option value="afternoon">Afternoon (12:00-17:00)</option>
+                <option value="evening">Evening (17:00-23:00)</option>
+                <option value="night">Night (23:00-05:00)</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Flight Status</label>
+            <select class="form-control border border-danger" id="status" name="status">
+                <option value="any">Any</option>
+                <option value="scheduled">Scheduled only</option>
+            </select>
+        </div>
+        <script>
+        function toggleApiKeyVisibility() {
+            var input = document.getElementById('aviationstack_api_key');
+            var btn = document.getElementById('toggleApiKey');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'Hide API Key';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'Show API Key';
+            }
+        }
+        </script>
+        <button type="submit" class="btn btn-primary">Get Insights</button>
+    </form>
+    <hr>
+    <div class="mt-4" style="color: #f06292;">
+        <h5>Common IATA Codes for Airlines that Operate in Australia</h5>
+        <ul class="list-group list-group-flush rounded shadow-sm">
+            <li class="list-group-item"><strong>QF</strong> – Qantas</li>
+            <li class="list-group-item"><strong>JQ</strong> – Jetstar</li>
+            <li class="list-group-item"><strong>VA</strong> – Virgin Australia</li>
+            <li class="list-group-item"><strong>Rex</strong> – Regional Express</li>
+            <li class="list-group-item"><strong>TT</strong> – Tigerair Australia (ceased, but may appear in data)</li>
+            <li class="list-group-item"><strong>ZL</strong> – Regional Express (Rex, alternate code)</li>
+            <li class="list-group-item"><strong>QO</strong> – Origin Pacific Airways (historical, may appear in some datasets)</li>
+            <li class="list-group-item"><strong>FC</strong> – Fly Corporate</li>
+            <li class="list-group-item"><strong>XR</strong> – Regional Express (Rex, alternate code)</li>
+        </ul>
+        <div class="text-muted mt-2">Enter the two-letter IATA code for your airline above. For more, see <a href="https://en.wikipedia.org/wiki/List_of_airlines_of_Australia" target="_blank">this list</a>.</div>
+    </div>
+    <hr>
+    <!-- Chart and table placeholders -->
+    <div id="insights">
+        {% if insights %}
+            {% if insights.error %}
+                <div class="alert alert-danger">{{ insights.error }}</div>
+            {% else %}
+                <h3>Flights Data (via Gemini AI)</h3>
+                <h3>Insights for {{ origin }} to {{ destination }} on {{ date }}</h3>
+                <p><strong>Total Flights:</strong> {{ insights.total_flights }}</p>
+                <h5>Popular Routes</h5>
+                <table class="table table-bordered">
+                    <thead><tr><th>Route</th><th>Flights</th></tr></thead>
+                    <tbody>
+                    {% for route, count in insights.popular_routes %}
+                        <tr><td>{{ route }}</td><td>{{ count }}</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <h5>High Demand Periods</h5>
+                <ul>
+                    {% for period, count in insights.high_demand_periods %}
+                        <li>{{ period }}: {{ count }} flights</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+    <hr>
+</div>
+<!-- Add sidebar JS -->
+<script>
+document.getElementById('sidebarToggle').onclick = function() {
+    document.getElementById('contactSidebar').style.right = '0';
+}
+document.getElementById('closeSidebar').onclick = function() {
+    document.getElementById('contactSidebar').style.right = '-350px';
+}
+</script>
+</body>
+</html> 
