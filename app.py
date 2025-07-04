@@ -17,7 +17,7 @@ genai.configure(api_key="AIzaSyDNvTFTbJqR5R0g7-Tr6RQHv0u8Bb3ZPQU")
 AVIATIONSTACK_API_KEY = os.environ.get('AVIATIONSTACK_API_KEY', '')
 
 def fetch_aviationstack_flights(origin, destination, date):
-    # AviationStack expects IATA codes and date in YYYY-MM-DD
+    #aviationstackiatacodes
     url = (
         f"http://api.aviationstack.com/v1/flights?access_key={AVIATIONSTACK_API_KEY}"
         f"&dep_iata={origin}&arr_iata={destination}&flight_date={date}"
@@ -45,7 +45,7 @@ def fetch_aviationstack_flights_by_airline(airline_code, api_key):
     flights = []
     if resp.status_code == 200:
         data = resp.json()
-        for f in data.get('data', [])[:10]:  # Limit to 10 flights
+        for f in data.get('data', [])[:10]:#10fligtlimit
             flights.append({
                 'airline': f.get('airline', {}).get('name', ''),
                 'flight_number': f.get('flight', {}).get('iata', ''),
@@ -71,7 +71,7 @@ def plot_bar_chart(items, title, filename, xlabel):
     if not labels or not counts:
         return None
     plt.figure(figsize=(8, 4))
-    plt.barh(labels, counts, color='#2196f3')
+    plt.barh(labels, counts, color='#2196f3')#plot
     plt.xlabel(xlabel)
     plt.title(title)
     plt.tight_layout()
@@ -161,7 +161,7 @@ def scrape():
             return False
     if time_range != 'any':
         flights = [f for f in flights if in_time_range(f.get('departure_time', ''), time_range)]
-    # Prepare concise data for Gemini
+    #dataforgemini
     flight_lines = [
         f"{f['airline']} | {f['flight_number']} | {f['departure_airport']} -> {f['arrival_airport']} | {f['departure_time']} - {f['arrival_time']} | {f['status']}"
         for f in flights
